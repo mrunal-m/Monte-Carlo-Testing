@@ -1,3 +1,5 @@
+namespace: <Mrunal-MaC-Monitors>
+montecarlo:
 custom_sql:
 - description: '[Moj] HO Absolute Volume - hourly '
   notes: the hour depicted in the monitor is (current_hour -  2)
