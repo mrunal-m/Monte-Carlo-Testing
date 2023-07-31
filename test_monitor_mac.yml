@@ -1,0 +1,23 @@
+custom_sql:
+- description: '[Moj] HO Absolute Volume - hourly '
+  notes: the hour depicted in the monitor is (current_hour -  2)
+  severity: SEV-2
+  labels:
+  - DAU
+  - Moj
+  notify_rule_run_failure: false
+  schedule:
+    type: fixed
+    interval_minutes: 60
+    start_time: '2023-04-27T05:35:00+00:00'
+    timezone: UTC
+  event_rollup_until_changed: false
+  sql: |
+    SELECT COUNT(*) from maximal-furnace-783.moj_analytics.home_opened
+    WHERE time BETWEEN TIMESTAMP_TRUNC(TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 2 HOUR), HOUR)
+    AND TIMESTAMP_TRUNC(TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 1 HOUR), HOUR)
+  comparisons:
+  - type: dynamic_threshold
+    operator: EQ
+    threshold_value: 0.0
+  query_result_type: SINGLE_NUMERIC
